@@ -1,0 +1,13 @@
+run:
+	@echo Running...
+	@go run main.go
+
+install:
+	@echo Downloading dependencies...
+	@go get
+	@echo Validating dependencies...
+	@go mod tidy
+
+vendor:
+	@echo Generating vendor from dependencies...
+	@go mod vendor
