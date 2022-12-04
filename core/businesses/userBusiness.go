@@ -3,6 +3,7 @@ package businesses
 import (
 	"fmt"
 	"log"
+	"regexp"
 	"unicode"
 
 	"github.com/TulioGuaraldoB/lemarchand-password/constants"
@@ -22,18 +23,22 @@ func NewUserBusiness() IUserBusiness {
 
 func (b *userBusiness) VerifyPassword(passwordRequest *requests.PasswordRequest) {
 	password := passwordRequest.Password
+	verifiers := false
+	fmt.Printf("%v", verifiers)
 
 	for _, passwordRule := range passwordRequest.Rules {
 		switch passwordRule.Rule {
 		case constants.MinimumCharacters:
-			checkPasswordLength(password, passwordRule.Value)
+			verifiers = checkPasswordLength(password, passwordRule.Value)
 
 		case constants.MinimumUppercaseCharacters:
 			checkUppercase(password, passwordRule.Value)
 
 		case constants.MinimumLowercaseCharacters:
+			checkLowercase(password, passwordRule.Value)
 
 		case constants.MinimumSpecialCharacters:
+			checkSpecialCharacters(password, passwordRule.Value)
 
 		case constants.NoRepeated:
 		}
@@ -41,11 +46,7 @@ func (b *userBusiness) VerifyPassword(passwordRequest *requests.PasswordRequest)
 }
 
 func checkPasswordLength(password string, minimumSize int64) bool {
-	if int64(len(password)) != minimumSize {
-		return false
-	}
-
-	return true
+	return len(password) != int(minimumSize)
 }
 
 func checkUppercase(password string, minimumSize int64) {
@@ -56,9 +57,35 @@ func checkUppercase(password string, minimumSize int64) {
 		}
 	}
 
+	compareCharactersToSize(characters, minimumSize)
+}
+
+func checkLowercase(password string, minimumSize int64) {
+	characters := []rune{}
+	for _, character := range password {
+		if unicode.IsLower(character) {
+			characters = append(characters, character)
+		}
+	}
+
+	compareCharactersToSize(characters, minimumSize)
+}
+
+func checkSpecialCharacters(password string, minimumSize int64) {
+	newPassword := password
+	newPassword = regexp.MustCompile(`[^!#@$%^&*()-+\\/{}]`).ReplaceAllString(password, "")
+	passwordLength := len(newPassword)
+
+	if passwordLength != int(minimumSize) {
+		errMessage := fmt.Sprintf("Wrong size of characters! required: %v. characters: %v", minimumSize, passwordLength)
+		log.Fatal(errMessage)
+	}
+}
+
+func compareCharactersToSize(characters []rune, minimumSize int64) {
 	charactersLength := len(characters)
 	if charactersLength != int(minimumSize) {
-		errMessage := fmt.Sprintf("Wrong size of characters! password: %v. characters: %v", passwordLength, len(characters))
+		errMessage := fmt.Sprintf("Wrong size of characters! required: %v. characters: %v", minimumSize, len(characters))
 		log.Fatal(errMessage)
 	}
 }
