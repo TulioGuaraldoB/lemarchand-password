@@ -32,5 +32,6 @@ func (c *userController) VerifyPassword(ctx *gin.Context) {
 		return
 	}
 
-	c.userBusiness.VerifyPassword(passwordReq)
+	verificationRes := c.userBusiness.VerifyPassword(passwordReq)
+	ctx.JSON(http.StatusOK, verificationRes)
 }

@@ -1,17 +1,16 @@
 package businesses
 
 import (
-	"fmt"
-	"log"
 	"regexp"
 	"unicode"
 
 	"github.com/TulioGuaraldoB/lemarchand-password/constants"
 	"github.com/TulioGuaraldoB/lemarchand-password/core/dtos/requests"
+	"github.com/TulioGuaraldoB/lemarchand-password/core/dtos/responses"
 )
 
 type IUserBusiness interface {
-	VerifyPassword(passwordRequest *requests.PasswordRequest)
+	VerifyPassword(passwordRequest *requests.PasswordRequest) *responses.PasswordResponse
 }
 
 type userBusiness struct {
@@ -21,35 +20,45 @@ func NewUserBusiness() IUserBusiness {
 	return &userBusiness{}
 }
 
-func (b *userBusiness) VerifyPassword(passwordRequest *requests.PasswordRequest) {
+func (b *userBusiness) VerifyPassword(passwordRequest *requests.PasswordRequest) *responses.PasswordResponse {
 	password := passwordRequest.Password
-	verifiers := false
-	fmt.Printf("%v", verifiers)
+	verificationRes := new(responses.PasswordResponse)
+	noMatched := []interface{}{}
 
 	for _, passwordRule := range passwordRequest.Rules {
 		switch passwordRule.Rule {
 		case constants.MinimumCharacters:
-			verifiers = checkPasswordLength(password, passwordRule.Value)
+			verificationRes.Verification = checkPasswordLength(password, passwordRule.Value)
+			verificationRes.NoMatched = passwordRule.Rule
+			noMatched = append(noMatched, verificationRes)
 
 		case constants.MinimumUppercaseCharacters:
-			checkUppercase(password, passwordRule.Value)
+			verificationRes.Verification = checkUppercase(password, passwordRule.Value)
+			verificationRes.NoMatched = passwordRule.Rule
+			noMatched = append(noMatched, verificationRes)
 
 		case constants.MinimumLowercaseCharacters:
-			checkLowercase(password, passwordRule.Value)
+			verificationRes.Verification = checkLowercase(password, passwordRule.Value)
+			verificationRes.NoMatched = passwordRule.Rule
+			noMatched = append(noMatched, verificationRes)
 
 		case constants.MinimumSpecialCharacters:
-			checkSpecialCharacters(password, passwordRule.Value)
+			verificationRes.Verification = checkSpecialCharacters(password, passwordRule.Value)
+			verificationRes.NoMatched = passwordRule.Rule
+			noMatched = append(noMatched, verificationRes)
 
 		case constants.NoRepeated:
 		}
 	}
+
+	return verificationRes
 }
 
 func checkPasswordLength(password string, minimumSize int64) bool {
 	return len(password) != int(minimumSize)
 }
 
-func checkUppercase(password string, minimumSize int64) {
+func checkUppercase(password string, minimumSize int64) bool {
 	characters := []rune{}
 	for _, character := range password {
 		if unicode.IsUpper(character) {
@@ -57,10 +66,10 @@ func checkUppercase(password string, minimumSize int64) {
 		}
 	}
 
-	compareCharactersToSize(characters, minimumSize)
+	return compareCharactersToSize(characters, minimumSize)
 }
 
-func checkLowercase(password string, minimumSize int64) {
+func checkLowercase(password string, minimumSize int64) bool {
 	characters := []rune{}
 	for _, character := range password {
 		if unicode.IsLower(character) {
@@ -68,24 +77,18 @@ func checkLowercase(password string, minimumSize int64) {
 		}
 	}
 
-	compareCharactersToSize(characters, minimumSize)
+	return compareCharactersToSize(characters, minimumSize)
 }
 
-func checkSpecialCharacters(password string, minimumSize int64) {
+func checkSpecialCharacters(password string, minimumSize int64) bool {
 	newPassword := password
 	newPassword = regexp.MustCompile(`[^!#@$%^&*()-+\\/{}]`).ReplaceAllString(password, "")
 	passwordLength := len(newPassword)
 
-	if passwordLength != int(minimumSize) {
-		errMessage := fmt.Sprintf("Wrong size of characters! required: %v. characters: %v", minimumSize, passwordLength)
-		log.Fatal(errMessage)
-	}
+	return passwordLength == int(minimumSize)
 }
 
-func compareCharactersToSize(characters []rune, minimumSize int64) {
+func compareCharactersToSize(characters []rune, minimumSize int64) bool {
 	charactersLength := len(characters)
-	if charactersLength != int(minimumSize) {
-		errMessage := fmt.Sprintf("Wrong size of characters! required: %v. characters: %v", minimumSize, len(characters))
-		log.Fatal(errMessage)
-	}
+	return charactersLength == int(minimumSize)
 }
