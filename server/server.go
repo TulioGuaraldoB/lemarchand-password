@@ -25,7 +25,7 @@ func New() Server {
 
 func (s *Server) Run() {
 	// Services
-	router := routes.SetRoutes()
+	routerEngine, router := routes.SetRoutes()
 
 	// Businesses
 	userBusiness := businesses.NewUserBusiness()
@@ -36,5 +36,5 @@ func (s *Server) Run() {
 	// Handlers
 	handlers.NewUserHandler(router, userController)
 
-	log.Fatal(s.Server.Run(":" + s.Port))
+	log.Fatal(routerEngine.Run(":" + s.Port))
 }

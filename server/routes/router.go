@@ -1,8 +1,11 @@
 package routes
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/TulioGuaraldoB/lemarchand-password/util"
+	"github.com/gin-gonic/gin"
+)
 
-func SetRoutes() *gin.RouterGroup {
+func SetRoutes() (*gin.Engine, *gin.RouterGroup) {
 	router := gin.Default()
 	apiVersion := new(gin.RouterGroup)
 
@@ -12,5 +15,7 @@ func SetRoutes() *gin.RouterGroup {
 		apiVersion = v1
 	}
 
-	return apiVersion
+	router.GET("health", util.Health)
+
+	return router, apiVersion
 }
