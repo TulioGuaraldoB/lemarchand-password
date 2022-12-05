@@ -47,6 +47,11 @@ func (b *userBusiness) VerifyPassword(passwordRequest *requests.PasswordRequest)
 			verificationRes.NoMatched = passwordRule.Rule
 			noMatched = append(noMatched, verificationRes)
 
+		case constants.MinimumDigits:
+			verificationRes.Verification = checkDigits(password, passwordRule.Value)
+			verificationRes.NoMatched = passwordRule.Rule
+			noMatched = append(noMatched, verificationRes)
+
 		case constants.NoRepeated:
 		}
 	}
@@ -91,4 +96,15 @@ func checkSpecialCharacters(password string, minimumSize int64) bool {
 func compareCharactersToSize(characters []rune, minimumSize int64) bool {
 	charactersLength := len(characters)
 	return charactersLength == int(minimumSize)
+}
+
+func checkDigits(password string, minimumSize int64) bool {
+	characters := []rune{}
+	for _, character := range password {
+		if unicode.IsDigit(character) {
+			characters = append(characters, character)
+		}
+	}
+
+	return compareCharactersToSize(characters, minimumSize)
 }
