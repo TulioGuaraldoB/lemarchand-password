@@ -1,12 +1,12 @@
 package businesses
 
 import (
-	"regexp"
 	"unicode"
 
 	"github.com/TulioGuaraldoB/lemarchand-password/constants"
 	"github.com/TulioGuaraldoB/lemarchand-password/core/dtos/requests"
 	"github.com/TulioGuaraldoB/lemarchand-password/core/dtos/responses"
+	"github.com/TulioGuaraldoB/lemarchand-password/util/formatter"
 )
 
 type IUserBusiness interface {
@@ -82,7 +82,7 @@ func checkLowercase(password string, minimumSize int64) bool {
 
 func checkSpecialCharacters(password string, minimumSize int64) bool {
 	newPassword := password
-	newPassword = regexp.MustCompile(`[^!#@$%^&*()-+\\/{}]`).ReplaceAllString(password, "")
+	newPassword = formatter.OnlySpecialCharacters(newPassword)
 	passwordLength := len(newPassword)
 
 	return passwordLength == int(minimumSize)
