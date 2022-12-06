@@ -3,6 +3,7 @@ package businesses_test
 import (
 	"testing"
 
+	"github.com/TulioGuaraldoB/lemarchand-password/constants"
 	"github.com/TulioGuaraldoB/lemarchand-password/core/businesses"
 	"github.com/TulioGuaraldoB/lemarchand-password/core/dtos/requests"
 	faker "github.com/brianvoe/gofakeit"
@@ -21,20 +22,62 @@ type userBusinessTest struct {
 	expectedValue            int64
 }
 
-func mockPassword(lower, upper, numeric, special, space bool, num int) string {
-	return faker.Password(lower, upper, numeric, special, space, num)
-}
-
 func TestVerifyPasswordBusiness(t *testing.T) {
 	tests := []userBusinessTest{
 		{
-			description:              "Should return no error in validation",
+			description:              "Should return success in character length validation",
 			expectedLower:            true,
 			expectedUpper:            true,
 			expectedNumeric:          true,
 			expectedSpecialCharacter: true,
 			expectedSpace:            true,
 			expectedNumber:           1,
+			expectedRule:             constants.MinimumCharacters,
+			expectedValue:            10,
+		},
+		{
+			description:              "Should return success in UPPERCASE validation",
+			expectedLower:            false,
+			expectedUpper:            true,
+			expectedNumeric:          false,
+			expectedSpecialCharacter: false,
+			expectedSpace:            false,
+			expectedNumber:           0,
+			expectedRule:             constants.MinimumUppercaseCharacters,
+			expectedValue:            10,
+		},
+		{
+			description:              "Should return success in lowercase validation",
+			expectedLower:            true,
+			expectedUpper:            false,
+			expectedNumeric:          false,
+			expectedSpecialCharacter: false,
+			expectedSpace:            false,
+			expectedNumber:           0,
+			expectedRule:             constants.MinimumLowercaseCharacters,
+			expectedValue:            10,
+		},
+		{
+			description:              "Should return success in special characters validation",
+			expectedLower:            true,
+			expectedUpper:            false,
+			expectedNumeric:          false,
+			expectedSpecialCharacter: true,
+			expectedSpace:            false,
+			expectedNumber:           0,
+			expectedRule:             constants.MinimumSpecialCharacters,
+			expectedValue:            5,
+		},
+		{
+			description:              "Should return success in digits validation",
+			expectedLower:            true,
+			expectedUpper:            false,
+			expectedNumeric:          true,
+			expectedSpecialCharacter: false,
+			expectedSpace:            false,
+			expectedNumber:           0,
+			expectedRule:             constants.MinimumDigits,
+			expectedValue:            2,
 		},
 	}
 

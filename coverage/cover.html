@@ -55,7 +55,7 @@
 			<div id="nav">
 				<select id="files">
 				
-				<option value="file0">github.com/TulioGuaraldoB/lemarchand-password/core/businesses/userBusiness.go (15.9%)</option>
+				<option value="file0">github.com/TulioGuaraldoB/lemarchand-password/core/businesses/userBusiness.go (100.0%)</option>
 				
 				</select>
 			</div>
@@ -98,27 +98,27 @@ func (b *userBusiness) VerifyPassword(passwordRequest *requests.PasswordRequest)
 
         for _, passwordRule := range passwordRequest.Rules </span><span class="cov8" title="1">{
                 switch passwordRule.Rule </span>{
-                case constants.MinimumCharacters:<span class="cov0" title="0">
+                case constants.MinimumCharacters:<span class="cov8" title="1">
                         verificationRes.Verification = checkPasswordLength(password, passwordRule.Value)
                         verificationRes.NoMatched = passwordRule.Rule
                         noMatched = append(noMatched, verificationRes)</span>
 
-                case constants.MinimumUppercaseCharacters:<span class="cov0" title="0">
+                case constants.MinimumUppercaseCharacters:<span class="cov8" title="1">
                         verificationRes.Verification = checkUppercase(password, passwordRule.Value)
                         verificationRes.NoMatched = passwordRule.Rule
                         noMatched = append(noMatched, verificationRes)</span>
 
-                case constants.MinimumLowercaseCharacters:<span class="cov0" title="0">
+                case constants.MinimumLowercaseCharacters:<span class="cov8" title="1">
                         verificationRes.Verification = checkLowercase(password, passwordRule.Value)
                         verificationRes.NoMatched = passwordRule.Rule
                         noMatched = append(noMatched, verificationRes)</span>
 
-                case constants.MinimumSpecialCharacters:<span class="cov0" title="0">
+                case constants.MinimumSpecialCharacters:<span class="cov8" title="1">
                         verificationRes.Verification = checkSpecialCharacters(password, passwordRule.Value)
                         verificationRes.NoMatched = passwordRule.Rule
                         noMatched = append(noMatched, verificationRes)</span>
 
-                case constants.MinimumDigits:<span class="cov0" title="0">
+                case constants.MinimumDigits:<span class="cov8" title="1">
                         verificationRes.Verification = checkDigits(password, passwordRule.Value)
                         verificationRes.NoMatched = passwordRule.Rule
                         noMatched = append(noMatched, verificationRes)</span>
@@ -130,33 +130,33 @@ func (b *userBusiness) VerifyPassword(passwordRequest *requests.PasswordRequest)
         <span class="cov8" title="1">return verificationRes</span>
 }
 
-func checkPasswordLength(password string, minimumSize int64) bool <span class="cov0" title="0">{
+func checkPasswordLength(password string, minimumSize int64) bool <span class="cov8" title="1">{
         return len(password) != int(minimumSize)
 }</span>
 
-func checkUppercase(password string, minimumSize int64) bool <span class="cov0" title="0">{
+func checkUppercase(password string, minimumSize int64) bool <span class="cov8" title="1">{
         characters := []rune{}
-        for _, character := range password </span><span class="cov0" title="0">{
-                if unicode.IsUpper(character) </span><span class="cov0" title="0">{
+        for _, character := range password </span><span class="cov8" title="1">{
+                if unicode.IsUpper(character) </span><span class="cov8" title="1">{
                         characters = append(characters, character)
                 }</span>
         }
 
-        <span class="cov0" title="0">return compareCharactersToSize(characters, minimumSize)</span>
+        <span class="cov8" title="1">return compareCharactersToSize(characters, minimumSize)</span>
 }
 
-func checkLowercase(password string, minimumSize int64) bool <span class="cov0" title="0">{
+func checkLowercase(password string, minimumSize int64) bool <span class="cov8" title="1">{
         characters := []rune{}
-        for _, character := range password </span><span class="cov0" title="0">{
-                if unicode.IsLower(character) </span><span class="cov0" title="0">{
+        for _, character := range password </span><span class="cov8" title="1">{
+                if unicode.IsLower(character) </span><span class="cov8" title="1">{
                         characters = append(characters, character)
                 }</span>
         }
 
-        <span class="cov0" title="0">return compareCharactersToSize(characters, minimumSize)</span>
+        <span class="cov8" title="1">return compareCharactersToSize(characters, minimumSize)</span>
 }
 
-func checkSpecialCharacters(password string, minimumSize int64) bool <span class="cov0" title="0">{
+func checkSpecialCharacters(password string, minimumSize int64) bool <span class="cov8" title="1">{
         newPassword := password
         newPassword = formatter.OnlySpecialCharacters(newPassword)
         passwordLength := len(newPassword)
@@ -164,20 +164,20 @@ func checkSpecialCharacters(password string, minimumSize int64) bool <span class
         return passwordLength == int(minimumSize)
 }</span>
 
-func compareCharactersToSize(characters []rune, minimumSize int64) bool <span class="cov0" title="0">{
+func compareCharactersToSize(characters []rune, minimumSize int64) bool <span class="cov8" title="1">{
         charactersLength := len(characters)
         return charactersLength == int(minimumSize)
 }</span>
 
-func checkDigits(password string, minimumSize int64) bool <span class="cov0" title="0">{
+func checkDigits(password string, minimumSize int64) bool <span class="cov8" title="1">{
         characters := []rune{}
-        for _, character := range password </span><span class="cov0" title="0">{
-                if unicode.IsDigit(character) </span><span class="cov0" title="0">{
+        for _, character := range password </span><span class="cov8" title="1">{
+                if unicode.IsDigit(character) </span><span class="cov8" title="1">{
                         characters = append(characters, character)
                 }</span>
         }
 
-        <span class="cov0" title="0">return compareCharactersToSize(characters, minimumSize)</span>
+        <span class="cov8" title="1">return compareCharactersToSize(characters, minimumSize)</span>
 }
 </pre>
 		
