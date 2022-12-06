@@ -8,6 +8,7 @@ import (
 	reflect "reflect"
 
 	requests "github.com/TulioGuaraldoB/lemarchand-password/core/dtos/requests"
+	responses "github.com/TulioGuaraldoB/lemarchand-password/core/dtos/responses"
 	gomock "github.com/golang/mock/gomock"
 )
 
@@ -35,9 +36,11 @@ func (m *MockIUserBusiness) EXPECT() *MockIUserBusinessMockRecorder {
 }
 
 // VerifyPassword mocks base method.
-func (m *MockIUserBusiness) VerifyPassword(passwordRequest *requests.PasswordRequest) {
+func (m *MockIUserBusiness) VerifyPassword(passwordRequest *requests.PasswordRequest) *responses.PasswordResponse {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "VerifyPassword", passwordRequest)
+	ret := m.ctrl.Call(m, "VerifyPassword", passwordRequest)
+	ret0, _ := ret[0].(*responses.PasswordResponse)
+	return ret0
 }
 
 // VerifyPassword indicates an expected call of VerifyPassword.

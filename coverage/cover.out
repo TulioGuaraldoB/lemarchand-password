@@ -1,0 +1,26 @@
+mode: set
+github.com/TulioGuaraldoB/lemarchand-password/core/businesses/userBusiness.go:19.38,21.2 1 1
+github.com/TulioGuaraldoB/lemarchand-password/core/businesses/userBusiness.go:23.110,28.53 4 1
+github.com/TulioGuaraldoB/lemarchand-password/core/businesses/userBusiness.go:59.2,59.24 1 1
+github.com/TulioGuaraldoB/lemarchand-password/core/businesses/userBusiness.go:28.53,29.28 1 1
+github.com/TulioGuaraldoB/lemarchand-password/core/businesses/userBusiness.go:30.36,33.50 3 0
+github.com/TulioGuaraldoB/lemarchand-password/core/businesses/userBusiness.go:35.45,38.50 3 0
+github.com/TulioGuaraldoB/lemarchand-password/core/businesses/userBusiness.go:40.45,43.50 3 0
+github.com/TulioGuaraldoB/lemarchand-password/core/businesses/userBusiness.go:45.43,48.50 3 0
+github.com/TulioGuaraldoB/lemarchand-password/core/businesses/userBusiness.go:50.32,53.50 3 0
+github.com/TulioGuaraldoB/lemarchand-password/core/businesses/userBusiness.go:55.29,55.29 0 0
+github.com/TulioGuaraldoB/lemarchand-password/core/businesses/userBusiness.go:62.67,64.2 1 0
+github.com/TulioGuaraldoB/lemarchand-password/core/businesses/userBusiness.go:66.62,68.37 2 0
+github.com/TulioGuaraldoB/lemarchand-password/core/businesses/userBusiness.go:74.2,74.57 1 0
+github.com/TulioGuaraldoB/lemarchand-password/core/businesses/userBusiness.go:68.37,69.33 1 0
+github.com/TulioGuaraldoB/lemarchand-password/core/businesses/userBusiness.go:69.33,71.4 1 0
+github.com/TulioGuaraldoB/lemarchand-password/core/businesses/userBusiness.go:77.62,79.37 2 0
+github.com/TulioGuaraldoB/lemarchand-password/core/businesses/userBusiness.go:85.2,85.57 1 0
+github.com/TulioGuaraldoB/lemarchand-password/core/businesses/userBusiness.go:79.37,80.33 1 0
+github.com/TulioGuaraldoB/lemarchand-password/core/businesses/userBusiness.go:80.33,82.4 1 0
+github.com/TulioGuaraldoB/lemarchand-password/core/businesses/userBusiness.go:88.70,94.2 4 0
+github.com/TulioGuaraldoB/lemarchand-password/core/businesses/userBusiness.go:96.73,99.2 2 0
+github.com/TulioGuaraldoB/lemarchand-password/core/businesses/userBusiness.go:101.59,103.37 2 0
+github.com/TulioGuaraldoB/lemarchand-password/core/businesses/userBusiness.go:109.2,109.57 1 0
+github.com/TulioGuaraldoB/lemarchand-password/core/businesses/userBusiness.go:103.37,104.33 1 0
+github.com/TulioGuaraldoB/lemarchand-password/core/businesses/userBusiness.go:104.33,106.4 1 0

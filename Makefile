@@ -21,6 +21,12 @@ mock:
 	@echo Mocks generated successfully!
 
 test:
-	@echo Running tests
+	@echo Running tests...
 	@go test -v ./...
 	@echo test successfully!
+
+cover:
+	@echo Running test coverage...
+	@go test ./... -v -coverprofile=coverage/cover.out
+	@go tool cover -html=coverage/cover.out -o coverage/cover.html
+	@echo Coverage successfully completed!
