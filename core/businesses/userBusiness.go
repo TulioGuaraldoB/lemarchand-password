@@ -30,32 +30,33 @@ func (b *userBusiness) VerifyPassword(passwordRequest *requests.PasswordRequest)
 		case constants.MinimumCharacters:
 			verificationRes.Verification = checkPasswordLength(password, passwordRule.Value)
 			verificationRes.NoMatched = passwordRule.Rule
-			noMatched = append(noMatched, verificationRes)
+			noMatched = append(noMatched, verificationRes.NoMatched)
 
 		case constants.MinimumUppercaseCharacters:
 			verificationRes.Verification = checkUppercase(password, passwordRule.Value)
 			verificationRes.NoMatched = passwordRule.Rule
-			noMatched = append(noMatched, verificationRes)
+			noMatched = append(noMatched, verificationRes.NoMatched)
 
 		case constants.MinimumLowercaseCharacters:
 			verificationRes.Verification = checkLowercase(password, passwordRule.Value)
 			verificationRes.NoMatched = passwordRule.Rule
-			noMatched = append(noMatched, verificationRes)
+			noMatched = append(noMatched, verificationRes.NoMatched)
 
 		case constants.MinimumSpecialCharacters:
 			verificationRes.Verification = checkSpecialCharacters(password, passwordRule.Value)
 			verificationRes.NoMatched = passwordRule.Rule
-			noMatched = append(noMatched, verificationRes)
+			noMatched = append(noMatched, verificationRes.NoMatched)
 
 		case constants.MinimumDigits:
 			verificationRes.Verification = checkDigits(password, passwordRule.Value)
 			verificationRes.NoMatched = passwordRule.Rule
-			noMatched = append(noMatched, verificationRes)
+			noMatched = append(noMatched, verificationRes.NoMatched)
 
 		case constants.NoRepeated:
 		}
 	}
 
+	verificationRes.NoMatched = noMatched
 	return verificationRes
 }
 

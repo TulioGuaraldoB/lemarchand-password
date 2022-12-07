@@ -57,7 +57,9 @@
 				
 				<option value="file0">github.com/TulioGuaraldoB/lemarchand-password/core/businesses/userBusiness.go (100.0%)</option>
 				
-				<option value="file1">github.com/TulioGuaraldoB/lemarchand-password/util/formatter/formatter.go (100.0%)</option>
+				<option value="file1">github.com/TulioGuaraldoB/lemarchand-password/core/controllers/userController.go (100.0%)</option>
+				
+				<option value="file2">github.com/TulioGuaraldoB/lemarchand-password/util/formatter/formatter.go (100.0%)</option>
 				
 				</select>
 			</div>
@@ -103,33 +105,34 @@ func (b *userBusiness) VerifyPassword(passwordRequest *requests.PasswordRequest)
                 case constants.MinimumCharacters:<span class="cov8" title="1">
                         verificationRes.Verification = checkPasswordLength(password, passwordRule.Value)
                         verificationRes.NoMatched = passwordRule.Rule
-                        noMatched = append(noMatched, verificationRes)</span>
+                        noMatched = append(noMatched, verificationRes.NoMatched)</span>
 
                 case constants.MinimumUppercaseCharacters:<span class="cov8" title="1">
                         verificationRes.Verification = checkUppercase(password, passwordRule.Value)
                         verificationRes.NoMatched = passwordRule.Rule
-                        noMatched = append(noMatched, verificationRes)</span>
+                        noMatched = append(noMatched, verificationRes.NoMatched)</span>
 
                 case constants.MinimumLowercaseCharacters:<span class="cov8" title="1">
                         verificationRes.Verification = checkLowercase(password, passwordRule.Value)
                         verificationRes.NoMatched = passwordRule.Rule
-                        noMatched = append(noMatched, verificationRes)</span>
+                        noMatched = append(noMatched, verificationRes.NoMatched)</span>
 
                 case constants.MinimumSpecialCharacters:<span class="cov8" title="1">
                         verificationRes.Verification = checkSpecialCharacters(password, passwordRule.Value)
                         verificationRes.NoMatched = passwordRule.Rule
-                        noMatched = append(noMatched, verificationRes)</span>
+                        noMatched = append(noMatched, verificationRes.NoMatched)</span>
 
                 case constants.MinimumDigits:<span class="cov8" title="1">
                         verificationRes.Verification = checkDigits(password, passwordRule.Value)
                         verificationRes.NoMatched = passwordRule.Rule
-                        noMatched = append(noMatched, verificationRes)</span>
+                        noMatched = append(noMatched, verificationRes.NoMatched)</span>
 
                 case constants.NoRepeated:<span class="cov0" title="0"></span>
                 }
         }
 
-        <span class="cov8" title="1">return verificationRes</span>
+        <span class="cov8" title="1">verificationRes.NoMatched = noMatched
+        return verificationRes</span>
 }
 
 func checkPasswordLength(password string, minimumSize int64) bool <span class="cov8" title="1">{
@@ -183,7 +186,46 @@ func checkDigits(password string, minimumSize int64) bool <span class="cov8" tit
 }
 </pre>
 		
-		<pre class="file" id="file1" style="display: none">package formatter
+		<pre class="file" id="file1" style="display: none">package controllers
+
+import (
+        "net/http"
+
+        "github.com/TulioGuaraldoB/lemarchand-password/core/businesses"
+        "github.com/TulioGuaraldoB/lemarchand-password/core/dtos/requests"
+        "github.com/gin-gonic/gin"
+)
+
+type IUserController interface {
+        VerifyPassword(ctx *gin.Context)
+}
+
+type userController struct {
+        userBusiness businesses.IUserBusiness
+}
+
+func NewUserController(userBusiness businesses.IUserBusiness) IUserController <span class="cov8" title="1">{
+        return &amp;userController{
+                userBusiness: userBusiness,
+        }
+}</span>
+
+func (c *userController) VerifyPassword(ctx *gin.Context) <span class="cov8" title="1">{
+        passwordReq := new(requests.PasswordRequest)
+        if err := ctx.ShouldBindJSON(passwordReq); err != nil </span><span class="cov8" title="1">{
+                ctx.JSON(http.StatusBadRequest, gin.H{
+                        "error": err.Error(),
+                })
+
+                return
+        }</span>
+
+        <span class="cov8" title="1">verificationRes := c.userBusiness.VerifyPassword(passwordReq)
+        ctx.JSON(http.StatusOK, verificationRes)</span>
+}
+</pre>
+		
+		<pre class="file" id="file2" style="display: none">package formatter
 
 import "regexp"
 
